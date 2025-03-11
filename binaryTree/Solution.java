@@ -55,12 +55,24 @@ public class Solution {
             System.out.println(root.data);
             inorderTraversal(root.right);
         }
+
+        public void postorderTraversal(Node root){
+            if (root == null) {
+                return;
+            }
+
+            postorderTraversal(root.left);
+            postorderTraversal(root.right);
+            System.out.println(root.data);
+
+
+        }
     }
     public static void main(String args[]) {
         binaryTree t1 = new binaryTree();
         int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6,-1, -1};
         t1.buildTree(arr);
 
-        t1.inorderTraversal(t1.root);
+        t1.postorderTraversal(t1.root);
     }
 }
