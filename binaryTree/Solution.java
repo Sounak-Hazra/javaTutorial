@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Solution {
     static class Node {
         int data;
@@ -56,7 +58,7 @@ public class Solution {
             inorderTraversal(root.right);
         }
 
-        public void postorderTraversal(Node root){
+        public void postorderTraversal(Node root) {
             if (root == null) {
                 return;
             }
@@ -64,15 +66,50 @@ public class Solution {
             postorderTraversal(root.left);
             postorderTraversal(root.right);
             System.out.println(root.data);
+        }
+        
+
+        public void livelorderTraversal(Node root) {
+
+            if (root == null) {
+                System.out.println("Tree is empty BSDK add some data !");
+                return;
+            }
+
+            Queue<Node> q = new LinkedList<>();
+            q.add(root);
+            q.add(null);
+
+            while (!q.isEmpty()) {
+                Node current = q.remove();
 
 
+                if (current == null) {
+                    System.out.println();
+
+                    if (q.isEmpty()) {
+                        break;
+                    } else {
+                        q.add(null);
+                    }
+                } else {
+                    if (current.left != null) {
+                        q.add(current.left);
+                    }
+                    if (current.right != null) {
+                        q.add(current.right);
+                    }
+                    System.out.print(current.data + " ");
+                }
+
+            }
         }
     }
     public static void main(String args[]) {
         binaryTree t1 = new binaryTree();
-        int arr[] = { 1, 2, 4, -1, -1, 5, -1, -1, 3, -1, 6,-1, -1};
+        int arr[] ={ 1, 2, 4, 8, -1, -1, 9, -1, -1, 5, 10, -1, -1, 11, -1, -1, 3, 6, 12, -1, -1, 13, -1, -1, 7, 14, -1, -1, 15, -1, -1 };
         t1.buildTree(arr);
 
-        t1.postorderTraversal(t1.root);
+        t1.preorderTraversal(t1.root);
     }
 }
