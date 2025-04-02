@@ -69,7 +69,7 @@ public class Solution {
         }
         
 
-        public void livelorderTraversal(Node root) {
+        public void lavelorderTraversal(Node root) {
 
             if (root == null) {
                 System.out.println("Tree is empty BSDK add some data !");
@@ -104,12 +104,78 @@ public class Solution {
 
             }
         }
+
+        int heightOftree(Node root) {
+            if (root == null) {
+                return 0;
+            }
+
+            return 1 + Math.max(heightOftree(root.left), heightOftree(root.right));
+        }
+        int totalNumberOfNodes(Node root) {
+            if (root == null) {
+                return 0;
+            }
+
+            return 1 + totalNumberOfNodes(root.left) + totalNumberOfNodes(root.right);
+        }
+
+        int sumOfNodes(Node root) {
+            if (root == null) {
+                return 0;
+            }
+
+            return root.data + sumOfNodes(root.left) + sumOfNodes(root.right);
+        }
+        
+        int diameterOfaTree(Node root) {
+            if (root == null) {
+                return 0;
+            }
+
+            int leftTreeHeight = heightOftree(root.left);
+            int rightTreeHeight = heightOftree(root.right);
+
+            int diameterOfTheTree = leftTreeHeight + rightTreeHeight + 1;
+
+            return Math.max(Math.max(diameterOfaTree(root.left), diameterOfaTree(root.right)), diameterOfTheTree);
+        }
+        
+        public static class Info {
+            int diameter;
+            int height;
+
+            public Info(int diameter, int height) {
+                this.diameter = diameter;
+                this.height = height;
+            }
+        }
+
+        Info diameterOfaTreeOptimized(Node root) {
+
+            if (root == null) {
+                return new Info(0, 0);
+            }
+            
+            Info rightInfo = diameterOfaTreeOptimized(root.right);
+            Info leftInfo = diameterOfaTreeOptimized(root.left);
+
+            int dim = Math.max(Math.max(rightInfo.diameter, leftInfo.diameter), rightInfo.height + leftInfo.height + 1);
+            int height = Math.max(leftInfo.height, rightInfo.height) + 1;
+
+            return new Info(dim, height);
+        }
     }
     public static void main(String args[]) {
         binaryTree t1 = new binaryTree();
         int arr[] ={ 1, 2, 4, 8, -1, -1, 9, -1, -1, 5, 10, -1, -1, 11, -1, -1, 3, 6, 12, -1, -1, 13, -1, -1, 7, 14, -1, -1, 15, -1, -1 };
         t1.buildTree(arr);
 
-        t1.preorderTraversal(t1.root);
+        
+        System.out.println(t1.heightOftree(t1.root));
+        System.out.println(t1.totalNumberOfNodes(t1.root));
+        System.out.println(t1.sumOfNodes(t1.root));
+
+        System.out.println(t1.diameterOfaTreeOptimized(t1.root).diameter);
     }
 }
